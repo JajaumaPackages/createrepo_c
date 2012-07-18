@@ -1,7 +1,7 @@
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
 Version:        0.1.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        LGPLv2
 Group:          System Environment/Base
 Source0:        https://fedorahosted.org/releases/c/r/createrepo_c/%{name}-%{version}.tar.xz
@@ -47,6 +47,9 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{_bindir}/mergerepo_c
 
 %changelog
+* Wed Jul 18 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.1.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
 * Tue Jun  11 2012 Tomas Mlcoch <tmlcoch at redhat.com> - 0.1.5-1
 - Support for .xz compression
 - Unversioned .so excluded from installation
