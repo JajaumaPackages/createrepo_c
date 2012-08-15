@@ -1,6 +1,6 @@
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.1.7
+Version:        0.1.8
 Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
@@ -82,6 +82,12 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %doc doc/html
 
 %changelog
+* Wed Aug  15 2012 Tomas Mlcoch <tmlcoch at redhat.com> - 0.1.8-1
+- New interface of repomd module
+- New cmd options: --repo --revision --distro --content --basedir
+- New createrepo_c specific cmd option --keep-all-metadata
+- Few bugfixes
+
 * Tue Jul  26 2012 Tomas Mlcoch <tmlcoch at redhat.com> - 0.1.7-1
 - SQLite support
 - Bash completion
