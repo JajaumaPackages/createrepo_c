@@ -1,6 +1,6 @@
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.1.9
+Version:        0.1.10
 Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
@@ -82,6 +82,9 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %doc doc/html
 
 %changelog
+* Wed Oct  03 2012 Tomas Mlcoch <tmlcoch at redhat.com> - 0.1.10-1
+- Another memory usage optimalization
+
 * Mon Sep  03 2012 Tomas Mlcoch <tmlcoch at redhat.com> - 0.1.9-1
 - Some changes in library interface
 - Memory usage optimalization
