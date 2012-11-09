@@ -1,6 +1,6 @@
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.1.10
+Version:        0.1.11
 Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
@@ -82,6 +82,16 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %doc doc/html
 
 %changelog
+* Fri Nov  09 2012 Tomas Mlcoch <tmlcoch at redhat.com> - 0.1.11-1
+- Deterministic output! Packages in output repodata are now sorted
+by ASCII value
+- Support for Koji mergerepos behaviour in mergerepo_c
+(new --koji, --groupfile and --blocked params)
+- Better atomicity while finall move .repodata/ -> repodata/
+- Repomd module supports pkgorigins record
+- Some new functions in misc module
+- Small changes in library interface
+
 * Wed Oct  03 2012 Tomas Mlcoch <tmlcoch at redhat.com> - 0.1.10-1
 - Another memory usage optimalization
 
