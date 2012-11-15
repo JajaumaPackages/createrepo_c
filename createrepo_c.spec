@@ -1,6 +1,6 @@
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.1.11
+Version:        0.1.12
 Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
@@ -82,6 +82,10 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %doc doc/html
 
 %changelog
+* Thu Nov  15 2012 Tomas Mlcoch <tmlcoch at redhat.com> - 0.1.12-1
+- Fix bug in sqlite filelists database
+- Fix memory leak
+
 * Fri Nov  09 2012 Tomas Mlcoch <tmlcoch at redhat.com> - 0.1.11-1
 - Deterministic output! Packages in output repodata are now sorted
 by ASCII value
