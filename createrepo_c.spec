@@ -1,7 +1,7 @@
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
 Version:        0.1.12
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
 Source0:        https://fedorahosted.org/releases/c/r/createrepo_c/%{name}-%{version}.tar.xz
@@ -82,6 +82,9 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %doc doc/html
 
 %changelog
+* Tue Nov  20 2012 Tomas Mlcoch <tmlcoch at redhat.com> - 0.1.12-2
+- Fix removing old repomd.xml while --update
+
 * Thu Nov  15 2012 Tomas Mlcoch <tmlcoch at redhat.com> - 0.1.12-1
 - Fix bug in sqlite filelists database
 - Fix memory leak
