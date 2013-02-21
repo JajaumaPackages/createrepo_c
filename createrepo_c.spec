@@ -1,7 +1,7 @@
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.1.14
-Release:        2%{?dist}
+Version:        0.1.15
+Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
 Source0:        https://fedorahosted.org/releases/c/r/createrepo_c/%{name}-%{version}.tar.xz
@@ -82,8 +82,11 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %doc doc/html
 
 %changelog
-* Wed Feb 13 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.1.14-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+* Mon Feb  11 2013 Tomas Mlcoch <tmlcoch at redhat.com> - 0.1.15-1
+- Fix bug in final move from .repodata/ -> repodata/
+- Fix warnings from RPM library. RPM library is thread-unsafe. This
+includes also reading headers. Use of empty keyring for rpm transaction
+should work around the problem.
 
 * Tue Nov  27 2012 Tomas Mlcoch <tmlcoch at redhat.com> - 0.1.14-1
 - Fix filelists database generation (use '.' instead of '' for current dir)
@@ -133,9 +136,6 @@ by ASCII value
 - Relicensed to GPLv2
 - Doxygen documentation in devel package
 - README update
-
-* Wed Jul 18 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.1.5-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
 * Tue Jun  11 2012 Tomas Mlcoch <tmlcoch at redhat.com> - 0.1.5-1
 - Support for .xz compression
