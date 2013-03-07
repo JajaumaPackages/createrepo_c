@@ -1,24 +1,24 @@
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.1.15
+Version:        0.1.16
 Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
 Source0:        https://fedorahosted.org/releases/c/r/createrepo_c/%{name}-%{version}.tar.xz
 URL:            https://fedorahosted.org/createrepo_c/
 
-BuildRequires:  cmake
-BuildRequires:  glib2-devel >= 2.22.0
-BuildRequires:  file-devel
-BuildRequires:  zlib-devel
 BuildRequires:  bzip2-devel
-BuildRequires:  rpm-devel >= 4.8.0
-BuildRequires:  libxml2-devel
-BuildRequires:  libcurl-devel
-BuildRequires:  expat-devel
-BuildRequires:  xz-devel
-BuildRequires:  sqlite-devel
+BuildRequires:  cmake
 BuildRequires:  doxygen
+BuildRequires:  expat-devel
+BuildRequires:  file-devel
+BuildRequires:  glib2-devel >= 2.22.0
+BuildRequires:  libcurl-devel
+BuildRequires:  libxml2-devel
+BuildRequires:  rpm-devel >= 4.8.0
+BuildRequires:  sqlite-devel
+BuildRequires:  xz-devel
+BuildRequires:  zlib-devel
 Requires:       %{name}-libs =  %{version}-%{release}
 
 %description
@@ -62,7 +62,7 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %postun -n %{name}-libs -p /sbin/ldconfig
 
 %files
-%doc README
+%doc README.md
 %doc COPYING
 %_mandir/man8/createrepo_c.8.*
 %_mandir/man8/mergerepo_c.8.*
@@ -82,6 +82,14 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %doc doc/html
 
 %changelog
+* Thu Mar  07 2013 Tomas Mlcoch <tmlcoch at redhat.com> - 0.1.16-1
+- Fix usage of rpm keyring (RhBug:918645)
+- More generic interface of repomd module
+- Code refactoring
+- Add some usage examples into the doxygen documentation and .h files
+- Rename version constants in version.h
+- New function cr_package_nevra (returns package nevra string)
+
 * Mon Feb  11 2013 Tomas Mlcoch <tmlcoch at redhat.com> - 0.1.15-1
 - Fix bug in final move from .repodata/ -> repodata/
 - Fix warnings from RPM library. RPM library is thread-unsafe. This
