@@ -1,7 +1,7 @@
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
 Version:        0.1.16
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
 Source0:        https://fedorahosted.org/releases/c/r/createrepo_c/%{name}-%{version}.tar.xz
@@ -20,6 +20,11 @@ BuildRequires:  sqlite-devel
 BuildRequires:  xz-devel
 BuildRequires:  zlib-devel
 Requires:       %{name}-libs =  %{version}-%{release}
+%if 0%{?rhel} == 6
+Requires: rpm >= 4.8.0-28
+%else
+Requires: rpm >= 4.9.0
+%endif
 
 %description
 C implementation of Createrepo. This utility will generate a common
