@@ -1,7 +1,7 @@
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.1.16
-Release:        3%{?dist}
+Version:        0.1.17
+Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
 Source0:        https://fedorahosted.org/releases/c/r/createrepo_c/%{name}-%{version}.tar.xz
@@ -87,6 +87,10 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %doc doc/html
 
 %changelog
+* Mon Mar  25 2013 Tomas Mlcoch <tmlcoch at redhat.com> - 0.1.17-1
+- Fix double free() when old metadata parsing failed. (related to RhBug: 920795)
+- Convert all strings to UTF-8 while dumping XML. (related RhBug: 920795)
+
 * Mon Mar  11 2013 Tomas Mlcoch <tmlcoch at redhat.com> - 0.1.16-2
 - Remove creation of own empty rpm keyring for a transaction set.
 This is not necessary since rpm-4.8.0-28 (rpm commit
