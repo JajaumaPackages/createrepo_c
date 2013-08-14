@@ -1,9 +1,9 @@
-%global gitrev e598429
+%global gitrev 1af2417
 # gitrev is output of: git rev-parse --short HEAD
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.2.0
+Version:        0.2.1
 Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
@@ -113,6 +113,10 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
+* Wed Aug  14 2013 Tomas Mlcoch <tmlcoch at redhat.com> - 0.2.1-1
+- checksum: Set SHA to be the same as SHA1 (For compatibility with original
+  Createrepo)
+
 * Mon Aug   5 2013 Tomas Mlcoch <tmlcoch at redhat.com> - 0.2.0-1
 - Speedup (More parallelization)
 - Changed C API
