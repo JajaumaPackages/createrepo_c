@@ -1,9 +1,9 @@
-%global gitrev 1af2417
+%global gitrev 98c23be
 # gitrev is output of: git rev-parse --short HEAD
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.2.1
+Version:        0.2.2
 Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
@@ -25,8 +25,8 @@ BuildRequires:  libcurl-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  openssl-devel
 BuildRequires:  python2-devel
-BuildRequires:  python-flask
 BuildRequires:  python-nose
+BuildRequires:  python-sphinx
 BuildRequires:  rpm-devel >= 4.8.0-28
 BuildRequires:  sqlite-devel
 BuildRequires:  xz-devel
@@ -70,13 +70,31 @@ Requires:   %{name}%{?_isa} = %{version}-%{release}
 %description -n python-createrepo_c
 Python bindings for the createrepo_c library.
 
+#%package -n python-deltarepo
+#Summary:    Python library for generation and application of delta repositories.
+#Group:      Development/Languages
+#Requires:   %{name}%{?_isa} = %{version}-%{release}
+#Requires:   python-createrepo_c = %{version}-%{release}
+
+#%description -n python-deltarepo
+#Python library for generation and application of delta repositories.
+
+#%package -n deltarepo
+#Summary:    Tool for generation and application of delta repositories.
+#Group:      Development/Languages
+#Requires:   %{name}%{?_isa} = %{version}-%{release}
+#Requires:   python-deltarepo = %{version}-%{release}
+
+#%description -n deltarepo
+#Tool for generation and application of delta repositories.
+
 %prep
 %setup -q -n createrepo_c
 
 %build
 %cmake .
 make %{?_smp_mflags} RPM_OPT_FLAGS="$RPM_OPT_FLAGS"
-make doc
+make doc-c
 
 %check
 make tests
@@ -94,9 +112,11 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %doc COPYING
 %_mandir/man8/createrepo_c.8.*
 %_mandir/man8/mergerepo_c.8.*
+%_mandir/man8/modifyrepo_c.8.*
 %config%{_sysconfdir}/bash_completion.d/createrepo_c.bash
 %{_bindir}/createrepo_c
 %{_bindir}/mergerepo_c
+%{_bindir}/modifyrepo_c
 
 %files libs
 %doc COPYING
@@ -112,7 +132,30 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %files -n python-createrepo_c
 %{python_sitearch}/createrepo_c/
 
+#%files -n python-deltarepo
+#%{python_sitearch}/deltarepo/
+
+#%files -n deltarepo
+#%{_bindir}/deltarepo
+
 %changelog
+* Thu Feb  20 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.2.2-1
+- Temporary remove deltarepo subpackages
+- cmake: Do not install deltarepo stuff yet
+- helper: Removed cr_remove_metadata() and cr_get_list_of_md_locations()
+- Add module helpers
+- Sanitize strings before writting them to XML or sqlitedb (ISSUE #3)
+
+* Mon Jan  27 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.2.1-3
+- New expert option: --ignore-lock
+
+* Mon Jan  20 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.2.1-2
+- More effort to avoid residual .repodata/ directory on error
+- Add deltarepo and python-deltarepo subpackages
+- Add modifyrepo_c
+- Add documentation for python bindings
+- Refactored code & a lot of little bug fixes
+
 * Wed Aug  14 2013 Tomas Mlcoch <tmlcoch at redhat.com> - 0.2.1-1
 - checksum: Set SHA to be the same as SHA1 (For compatibility with original
   Createrepo)
