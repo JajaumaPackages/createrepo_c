@@ -1,9 +1,9 @@
-%global gitrev 98c23be
+%global gitrev 0c8ec2e
 # gitrev is output of: git rev-parse --short HEAD
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.2.2
+Version:        0.3.0
 Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
@@ -70,24 +70,6 @@ Requires:   %{name}%{?_isa} = %{version}-%{release}
 %description -n python-createrepo_c
 Python bindings for the createrepo_c library.
 
-#%package -n python-deltarepo
-#Summary:    Python library for generation and application of delta repositories.
-#Group:      Development/Languages
-#Requires:   %{name}%{?_isa} = %{version}-%{release}
-#Requires:   python-createrepo_c = %{version}-%{release}
-
-#%description -n python-deltarepo
-#Python library for generation and application of delta repositories.
-
-#%package -n deltarepo
-#Summary:    Tool for generation and application of delta repositories.
-#Group:      Development/Languages
-#Requires:   %{name}%{?_isa} = %{version}-%{release}
-#Requires:   python-deltarepo = %{version}-%{release}
-
-#%description -n deltarepo
-#Tool for generation and application of delta repositories.
-
 %prep
 %setup -q -n createrepo_c
 
@@ -132,13 +114,16 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %files -n python-createrepo_c
 %{python_sitearch}/createrepo_c/
 
-#%files -n python-deltarepo
-#%{python_sitearch}/deltarepo/
-
-#%files -n deltarepo
-#%{_bindir}/deltarepo
-
 %changelog
+* Mon Mar  10 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.3.0-1
+- Relevant only for developers using createrepo_c library: New approach for
+  metadata loading in case of internal high-level parser functions (see commit
+  messages for more information: d6ed327595, 0b0e75203e, ad1e8450f5)
+- Support for changelog limit value == -1 (include all changelogs)
+- Update debug compilation flags
+- Update man pages (Add synompsis with usage)
+- Update usage examples in help
+
 * Thu Feb  20 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.2.2-1
 - Temporary remove deltarepo subpackages
 - cmake: Do not install deltarepo stuff yet
