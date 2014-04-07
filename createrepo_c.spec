@@ -1,9 +1,9 @@
-%global gitrev 0c8ec2e
+%global gitrev a5d7283
 # gitrev is output of: git rev-parse --short HEAD
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.3.0
+Version:        0.3.1
 Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
@@ -115,6 +115,9 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
+* Mon Apr  10 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.3.1-1
+- Support for weak and rich dependecies
+
 * Mon Mar  10 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.3.0-1
 - Relevant only for developers using createrepo_c library: New approach for
   metadata loading in case of internal high-level parser functions (see commit
