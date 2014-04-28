@@ -1,10 +1,10 @@
-%global gitrev a5d7283
+%global gitrev 983632d
 # gitrev is output of: git rev-parse --short HEAD
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
 Version:        0.3.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
 # Use the following commands to generate the tarball:
@@ -115,7 +115,7 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
-* Mon Apr  10 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.3.1-1
+* Thu Apr  10 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.3.1-2
 - Support for weak and rich dependecies
 
 * Mon Mar  10 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.3.0-1
