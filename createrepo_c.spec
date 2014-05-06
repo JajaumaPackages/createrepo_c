@@ -1,10 +1,10 @@
-%global gitrev 983632d
+%global gitrev 7ef96a6
 # gitrev is output of: git rev-parse --short HEAD
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.3.1
-Release:        2%{?dist}
+Version:        0.4.0
+Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
 # Use the following commands to generate the tarball:
@@ -115,6 +115,13 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
+* Thu May   6 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.4.0-1
+- Change default behavior of repodata files handling. (RhBug: 1094539)
+  See: https://github.com/Tojaj/createrepo_c/wiki/New-File-Handling
+  By default, createrepo leaves old groupfiles (comps files)
+  in the repodata/ directory during update.
+  Createrepo_c did the same thing but the version 0.4.0 changes this behaviour.
+
 * Thu Apr  10 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.3.1-2
 - Support for weak and rich dependecies
 
