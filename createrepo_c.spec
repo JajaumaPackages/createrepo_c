@@ -1,10 +1,10 @@
-%global gitrev 7ef96a6
+%global gitrev d43f960
 # gitrev is output of: git rev-parse --short HEAD
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.4.0
-Release:        2%{?dist}
+Version:        0.4.1
+Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
 # Use the following commands to generate the tarball:
@@ -39,9 +39,10 @@ Requires: rpm >= 4.9.0
 %endif
 
 %description
-C implementation of Createrepo. This utility will generate a common
-metadata repository from a directory of rpm packages
-
+C implementation of Createrepo.
+A set of utilities (createrepo_c, mergerepo_c, modifyrepo_c)
+for generating a common metadata repository from a directory of
+rpm packages and maintaining it.
 
 %package libs
 Summary:    Library for repodata manipulation
@@ -115,10 +116,14 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
-* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.4.0-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+* Thu Jun  26 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.4.1-1
+- Initialize threads correctly on old versions of GLib2 (RhBug: 1108787)
+- Do not print log domain (get rid off C_CREATEREPOLIB prefix in log messages)
+- Implements support for --cachedir
+- New option --retain-old-md-by-age
+- Few small API changes
 
-* Thu May   6 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.4.0-1
+* Tue May   6 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.4.0-1
 - Change default behavior of repodata files handling. (RhBug: 1094539)
   See: https://github.com/Tojaj/createrepo_c/wiki/New-File-Handling
   By default, createrepo leaves old groupfiles (comps files)
