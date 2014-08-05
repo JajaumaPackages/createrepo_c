@@ -1,9 +1,9 @@
-%global gitrev d43f960
+%global gitrev e509b1f
 # gitrev is output of: git rev-parse --short HEAD
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.4.1
+Version:        0.6.0
 Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
@@ -15,7 +15,6 @@ Source0:        createrepo_c-%{gitrev}.tar.xz
 URL:            https://github.com/Tojaj/createrepo_c
 
 BuildRequires:  bzip2-devel
-BuildRequires:  check-devel
 BuildRequires:  cmake
 BuildRequires:  doxygen
 BuildRequires:  expat-devel
@@ -116,6 +115,12 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
+* Tue Aug   5 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.6.0-1
+- Support for updateinfo.xml manipulation (including Python bindings)
+
+* Fri Jul  18 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.5.0-1
+- Experimental delta rpm (DRPM) support (Disabled in Fedora build).
+
 * Thu Jun  26 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.4.1-1
 - Initialize threads correctly on old versions of GLib2 (RhBug: 1108787)
 - Do not print log domain (get rid off C_CREATEREPOLIB prefix in log messages)
