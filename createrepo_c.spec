@@ -1,9 +1,9 @@
-%global gitrev e509b1f
+%global gitrev 1e32fcd
 # gitrev is output of: git rev-parse --short HEAD
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.6.0
+Version:        0.6.1
 Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
@@ -115,6 +115,9 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
+* Tue Aug  12 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.6.1-1
+- updateinfo: Use Python datetime objects in python bindings
+
 * Tue Aug   5 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.6.0-1
 - Support for updateinfo.xml manipulation (including Python bindings)
 
