@@ -4,7 +4,7 @@
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
 Version:        0.6.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
 # Use the following commands to generate the tarball:
@@ -115,6 +115,9 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
+* Sat Aug 16 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
 * Tue Aug  12 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.6.1-1
 - updateinfo: Use Python datetime objects in python bindings
 
