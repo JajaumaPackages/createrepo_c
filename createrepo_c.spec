@@ -1,10 +1,10 @@
-%global gitrev 1e32fcd
+%global gitrev 20068e8
 # gitrev is output of: git rev-parse --short HEAD
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.6.1
-Release:        2%{?dist}
+Version:        0.7.0
+Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
 # Use the following commands to generate the tarball:
@@ -115,8 +115,12 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
-* Sat Aug 16 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.6.1-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+* Mon Oct  20 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.7.0-1
+- deltarpms: Update module to work with current version of drpm
+- mergerepo_c: Add --omit-baseurl option
+- craterepo_c: Gen empty repo if empty pkglist is used
+- Docs: Output python docs to separate directory
+- Several small fixes
 
 * Tue Aug  12 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.6.1-1
 - updateinfo: Use Python datetime objects in python bindings
