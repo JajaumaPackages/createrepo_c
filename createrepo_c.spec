@@ -1,9 +1,9 @@
-%global gitrev 20068e8
+%global gitrev cb47bf6
 # gitrev is output of: git rev-parse --short HEAD
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.7.0
+Version:        0.7.1
 Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
@@ -115,6 +115,10 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
+* Fri Oct  31 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.7.1-1
+- Mergerepo: Fix mergerepo
+- Mergerepo: Add some debugging of metadata read.
+
 * Mon Oct  20 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.7.0-1
 - deltarpms: Update module to work with current version of drpm
 - mergerepo_c: Add --omit-baseurl option
