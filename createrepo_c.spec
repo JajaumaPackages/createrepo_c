@@ -1,9 +1,9 @@
-%global gitrev cb47bf6
+%global gitrev 92d9225
 # gitrev is output of: git rev-parse --short HEAD
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.7.1
+Version:        0.7.2
 Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
@@ -115,6 +115,9 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
+* Thu Nov  06 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.7.2-1
+- createrepo_c: New option --local-sqlite
+
 * Fri Oct  31 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.7.1-1
 - Mergerepo: Fix mergerepo
 - Mergerepo: Add some debugging of metadata read.
