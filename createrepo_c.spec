@@ -115,7 +115,7 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
-* Thu Nov  10 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.7.3-1
+* Mon Nov  10 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.7.3-1
 - xml_parser: Add file path into error messages
 - Refactor: Replace g_error() with g_critical() (RhBug: 1162102)
 
