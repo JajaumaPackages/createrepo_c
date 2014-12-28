@@ -4,7 +4,7 @@
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
 Version:        0.7.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
 # Use the following commands to generate the tarball:
