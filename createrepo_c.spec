@@ -1,4 +1,4 @@
-%global gitrev 05783bf
+%global gitrev 9c22993
 # gitrev is output of: git rev-parse --short HEAD
 
 Summary:        Creates a common metadata repository
@@ -115,6 +115,9 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
+* Sun Dec  28 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.7.5-2
+- Python: Add __contains__ method to Repomd() class
+
 * Sun Dec  28 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.7.5-1
 - Python repomd: Support for iteration and indexing by type - e.g. record = repomd['primary']
 - Show warning if an XML parser probably parsed a bad type of medata (New XML parser warning type CR_XML_WARNING_BADMDTYPE)
