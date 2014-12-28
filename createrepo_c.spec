@@ -1,9 +1,9 @@
-%global gitrev d78d504
+%global gitrev 05783bf
 # gitrev is output of: git rev-parse --short HEAD
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.7.4
+Version:        0.7.5
 Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
@@ -115,6 +115,12 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
+* Sun Dec  28 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.7.5-1
+- Python repomd: Support for iteration and indexing by type - e.g. record = repomd['primary']
+- Show warning if an XML parser probably parsed a bad type of medata (New XML parser warning type CR_XML_WARNING_BADMDTYPE)
+- drpm library: Explicitly try to locate libdrpm.so.0
+- deltarpms: Don't show options for delta rpms if support is not available
+
 * Tue Nov  11 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.7.4-1
 - createrepo_c, mergerepo_c: Follow redirs by default while downloading remote repos
 - mergerepo_c: Fix segfault when a package without sourcerpm is part of metadata and --koji option is used
