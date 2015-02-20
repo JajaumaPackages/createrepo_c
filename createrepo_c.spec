@@ -1,10 +1,10 @@
-%global gitrev 9c22993
+%global gitrev d745b02
 # gitrev is output of: git rev-parse --short HEAD
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.7.5
-Release:        2%{?dist}
+Version:        0.7.7
+Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
 # Use the following commands to generate the tarball:
@@ -14,6 +14,7 @@ Group:          System Environment/Base
 Source0:        createrepo_c-%{gitrev}.tar.xz
 URL:            https://github.com/Tojaj/createrepo_c
 
+BuildRequires:  bash-completion
 BuildRequires:  bzip2-devel
 BuildRequires:  cmake
 BuildRequires:  doxygen
@@ -65,7 +66,7 @@ These development files are for easy manipulation with a repodata.
 %package -n python-createrepo_c
 Summary:    Python bindings for the createrepo_c library
 Group:      Development/Languages
-Requires:   %{name}%{?_isa} = %{version}-%{release}
+Requires:   %{name}-libs = %{version}-%{release}
 
 %description -n python-createrepo_c
 Python bindings for the createrepo_c library.
@@ -95,7 +96,7 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %_mandir/man8/createrepo_c.8.*
 %_mandir/man8/mergerepo_c.8.*
 %_mandir/man8/modifyrepo_c.8.*
-%config%{_sysconfdir}/bash_completion.d/createrepo_c.bash
+%{_datadir}/bash-completion/completions/*
 %{_bindir}/createrepo_c
 %{_bindir}/mergerepo_c
 %{_bindir}/modifyrepo_c
@@ -115,7 +116,11 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
-* Sun Dec  28 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.7.5-2
+* Fri Feb  20 2015 Tomas Mlcoch <tmlcoch at redhat.com> - 0.7.7-1
+- Proper directory for temporary files when --local-sqlite is used (Issue #12)
+- Bring bash completion install dir and filenames up to date with current bash-completion
+
+* Thu Jan   8 2015 Tomas Mlcoch <tmlcoch at redhat.com> - 0.7.6-1
 - Python: Add __contains__ method to Repomd() class
 
 * Sun Dec  28 2014 Tomas Mlcoch <tmlcoch at redhat.com> - 0.7.5-1
