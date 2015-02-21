@@ -4,7 +4,7 @@
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
 Version:        0.7.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
 # Use the following commands to generate the tarball:
@@ -116,6 +116,10 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
+* Sat Feb 21 2015 Till Maas <opensource@till.name> - 0.7.7-2
+- Rebuilt for Fedora 23 Change
+  https://fedoraproject.org/wiki/Changes/Harden_all_packages_with_position-independent_code
+
 * Fri Feb  20 2015 Tomas Mlcoch <tmlcoch at redhat.com> - 0.7.7-1
 - Proper directory for temporary files when --local-sqlite is used (Issue #12)
 - Bring bash completion install dir and filenames up to date with current bash-completion
