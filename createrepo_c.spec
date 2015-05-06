@@ -1,10 +1,16 @@
-%global gitrev d745b02
+%global gitrev bf4bd9f
 # gitrev is output of: git rev-parse --short HEAD
+
+%if 0%{?rhel} == 6
+%define bash_completion %config%{_sysconfdir}/bash_completion.d/createrepo_c.bash
+%else
+%define bash_completion %{_datadir}/bash-completion/completions/*
+%endif
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.7.7
-Release:        2%{?dist}
+Version:        0.8.1
+Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
 # Use the following commands to generate the tarball:
@@ -96,10 +102,11 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %_mandir/man8/createrepo_c.8.*
 %_mandir/man8/mergerepo_c.8.*
 %_mandir/man8/modifyrepo_c.8.*
-%{_datadir}/bash-completion/completions/*
+%{bash_completion}
 %{_bindir}/createrepo_c
 %{_bindir}/mergerepo_c
 %{_bindir}/modifyrepo_c
+%{_bindir}/sqliterepo_c
 
 %files libs
 %doc COPYING
@@ -116,9 +123,13 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
-* Sat Feb 21 2015 Till Maas <opensource@till.name> - 0.7.7-2
-- Rebuilt for Fedora 23 Change
-  https://fedoraproject.org/wiki/Changes/Harden_all_packages_with_position-independent_code
+* Wed May   6 2015 Tomas Mlcoch <tmlcoch at redhat.com> - 0.8.1-1
+- Fix bash completion for RHEL 6
+
+* Tue May   5 2015 Tomas Mlcoch <tmlcoch at redhat.com> - 0.8.0-1
+- New tool Sqliterepo_c - It generates sqlite databases into repos
+  where the sqlite is missing.
+- Internal refactoring and code cleanup
 
 * Fri Feb  20 2015 Tomas Mlcoch <tmlcoch at redhat.com> - 0.7.7-1
 - Proper directory for temporary files when --local-sqlite is used (Issue #12)
