@@ -1,4 +1,4 @@
-%global gitrev bf4bd9f
+%global gitrev 71da671
 # gitrev is output of: git rev-parse --short HEAD
 
 %if 0%{?rhel} == 6
@@ -9,7 +9,7 @@
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.8.1
+Version:        0.8.2
 Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
@@ -20,7 +20,6 @@ Group:          System Environment/Base
 Source0:        createrepo_c-%{gitrev}.tar.xz
 URL:            https://github.com/Tojaj/createrepo_c
 
-BuildRequires:  bash-completion
 BuildRequires:  bzip2-devel
 BuildRequires:  cmake
 BuildRequires:  doxygen
@@ -41,6 +40,7 @@ Requires:       %{name}-libs =  %{version}-%{release}
 %if 0%{?rhel} == 6
 Requires: rpm >= 4.8.0-28
 %else
+BuildRequires:  bash-completion
 Requires: rpm >= 4.9.0
 %endif
 
@@ -102,6 +102,7 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %_mandir/man8/createrepo_c.8.*
 %_mandir/man8/mergerepo_c.8.*
 %_mandir/man8/modifyrepo_c.8.*
+%_mandir/man8/sqliterepo_c.8.*
 %{bash_completion}
 %{_bindir}/createrepo_c
 %{_bindir}/mergerepo_c
@@ -123,6 +124,17 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
+* Thu May  14 2015 Tomas Mlcoch <tmlcoch at redhat.com> - 0.8.2-1
+- doc: Add man pages for sqliterepo and update manpages for other tools
+- mergerepo: Work only with noarch packages if --koji is used and
+  no archlist is specified
+- mergerepo: Use file:// protocol in local baseurl
+- mergerepo: Do not include baseurl for first repo if --koji is specified (RhBug: 1220082)
+- mergerepo_c: Support multilib arch for --koji repos
+- mergerepo_c: Refactoring
+- Print debug message with version in each tool when --verbose is used
+- modifyrepo: Don't override file with itself (RhBug: 1215229)
+
 * Wed May   6 2015 Tomas Mlcoch <tmlcoch at redhat.com> - 0.8.1-1
 - Fix bash completion for RHEL 6
 
