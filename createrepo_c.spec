@@ -1,4 +1,4 @@
-%global gitrev 71da671
+%global gitrev 35aecbe
 # gitrev is output of: git rev-parse --short HEAD
 
 %if 0%{?rhel} == 6
@@ -9,7 +9,7 @@
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.8.2
+Version:        0.8.3
 Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
@@ -124,6 +124,9 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
+* Fri May  15 2015 Tomas Mlcoch <tmlcoch at redhat.com> - 0.8.3-1
+- mergerepo: Do not prepend file:// if protocol is already specified
+
 * Thu May  14 2015 Tomas Mlcoch <tmlcoch at redhat.com> - 0.8.2-1
 - doc: Add man pages for sqliterepo and update manpages for other tools
 - mergerepo: Work only with noarch packages if --koji is used and
