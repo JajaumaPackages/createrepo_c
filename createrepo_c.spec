@@ -1,4 +1,4 @@
-%global gitrev 1c98fe1
+%global gitrev 8f8459e
 # gitrev is output of: git rev-parse --short HEAD
 
 %if 0%{?rhel} == 6
@@ -10,7 +10,7 @@
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
 Version:        0.8.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
 # Use the following commands to generate the tarball:
@@ -124,6 +124,10 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
+* Mon May  25 2015 Tomas Mlcoch <tmlcoch at redhat.com> - 0.8.3-3
+- mergerepo: Fix NVR merging method
+- mergerepo: Fix behavior of --all param
+
 * Fri May  22 2015 Tomas Mlcoch <tmlcoch at redhat.com> - 0.8.3-2
 - createrepo: Add --cut-dirs and --location-prefix options
 - misc: Add cr_cut_dirs()
