@@ -1,4 +1,4 @@
-%global gitrev 4479840
+%global gitrev a3aaa03
 # gitrev is output of: git rev-parse --short HEAD
 
 %if 0%{?rhel} == 6
@@ -42,6 +42,9 @@ Requires: rpm >= 4.8.0-28
 %else
 BuildRequires:  bash-completion
 Requires: rpm >= 4.9.0
+%endif
+%if 0%{?fedora} >= 21
+BuildRequires:  drpm >= 0.1.3
 %endif
 
 %description
@@ -124,8 +127,8 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
-* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.0-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+* Tue Jul   7 2015 Tomas Mlcoch <tmlcoch at redhat.com> - 0.9.0-2
+- Add drpm as a BuildRequire
 
 * Thu May  28 2015 Tomas Mlcoch <tmlcoch at redhat.com> - 0.9.0-1
 - mergerepo_c: Prepend protocol (file://) for URLs in pkgorigins (if --koji is used)
