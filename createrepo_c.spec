@@ -10,7 +10,7 @@
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
 Version:        0.9.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
 # Use the following commands to generate the tarball:
@@ -127,6 +127,9 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
+* Sun Jul 26 2015 Kevin Fenzi <kevin@scrye.com> 0.9.0-4
+- Rebuild for new librpm
+
 * Tue Jul   7 2015 Tomas Mlcoch <tmlcoch at redhat.com> - 0.9.0-3
 - Add drpm as a BuildRequire
 
