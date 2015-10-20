@@ -1,4 +1,4 @@
-%global gitrev a3aaa03
+%global gitrev 7b68123
 # gitrev is output of: git rev-parse --short HEAD
 
 %if 0%{?rhel} == 6
@@ -9,8 +9,8 @@
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.9.0
-Release:        4%{?dist}
+Version:        0.9.1
+Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
 # Use the following commands to generate the tarball:
@@ -44,7 +44,7 @@ BuildRequires:  bash-completion
 Requires: rpm >= 4.9.0
 %endif
 %if 0%{?fedora} >= 21
-BuildRequires:  drpm >= 0.1.3
+BuildRequires:  drpm-devel >= 0.1.3
 %endif
 
 %description
@@ -127,10 +127,23 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %{python_sitearch}/createrepo_c/
 
 %changelog
-* Sun Jul 26 2015 Kevin Fenzi <kevin@scrye.com> 0.9.0-4
-- Rebuild for new librpm
+* Tue Oct  20 2015 Tomas Mlcoch <tmlcoch at redhat.com> - 0.9.1-1
+- Fix double free during parsing broken XML metadata (Issue #33)
+- Tests: Add acceptance test for --general-compress-type option
+- Fix 'CR_CW_UNKNOWN_COMPRESSION cannot be used' error
+- Refactoring: Fix compiler warnings
+- Add --general-compress-type option (RhBug 1253850)
+- Enable drpm support when drpm library is detected on system (RhBug: 1261031) (Issue #37)
+- fix traceback on non-complete datetime information (Jarek Polok)
+- parsehdr: Skip broken dependency with bad (non-numerical) epoch and print warning about that
+  (https://lists.fedoraproject.org/pipermail/devel/2015-August/213882.html)
+- misc: cr_str_to_evr(): Return NULL instead of "0" for bad (non-numerical) epoch
+- updateinfo: Fix a typo in the package release attribute (Luke Macken)
+- CMake: Don't require CXX compiler
+- Tests for different checksum type for RPMs and repodata files (#31)
+- Support different checksum type for RPMs and repodata files (#31)
 
-* Tue Jul   7 2015 Tomas Mlcoch <tmlcoch at redhat.com> - 0.9.0-3
+* Tue Jul   7 2015 Tomas Mlcoch <tmlcoch at redhat.com> - 0.9.0-2
 - Add drpm as a BuildRequire
 
 * Thu May  28 2015 Tomas Mlcoch <tmlcoch at redhat.com> - 0.9.0-1
