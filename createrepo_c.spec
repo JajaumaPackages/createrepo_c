@@ -1,15 +1,23 @@
-%global gitrev 7b68123
+%global gitrev 7a74bb7
 # gitrev is output of: git rev-parse --short HEAD
 
+# Bash completion (we need different approach for RHEL-6)
 %if 0%{?rhel} == 6
 %define bash_completion %config%{_sysconfdir}/bash_completion.d/createrepo_c.bash
 %else
 %define bash_completion %{_datadir}/bash-completion/completions/*
 %endif
 
+# Python 3 bindings (we don't want python3 bindings in RHEL-7)
+%if 0%{?rhel} != 0 && 0%{?rhel} <= 7
+%bcond_with python3
+%else
+%bcond_without python3
+%endif
+
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
-Version:        0.9.1
+Version:        0.10.0
 Release:        1%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
@@ -29,9 +37,6 @@ BuildRequires:  glib2-devel >= 2.22.0
 BuildRequires:  libcurl-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  openssl-devel
-BuildRequires:  python2-devel
-BuildRequires:  python-nose
-BuildRequires:  python-sphinx
 BuildRequires:  rpm-devel >= 4.8.0-28
 BuildRequires:  sqlite-devel
 BuildRequires:  xz-devel
@@ -73,32 +78,102 @@ This package contains the createrepo_c C library and header files.
 These development files are for easy manipulation with a repodata.
 
 %package -n python-createrepo_c
-Summary:    Python bindings for the createrepo_c library
-Group:      Development/Languages
-Requires:   %{name}-libs = %{version}-%{release}
+Summary:        Python bindings for the createrepo_c library
+Group:          Development/Languages
+BuildRequires:  python2-devel
+BuildRequires:  python-nose
+BuildRequires:  python-sphinx
+Requires:       %{name}-libs = %{version}-%{release}
 
 %description -n python-createrepo_c
 Python bindings for the createrepo_c library.
 
+%if %{with python3}
+%package -n python3-createrepo_c
+Summary:        Python 3 bindings for the createrepo_c library
+Group:          Development/Languages
+BuildRequires:  python3-devel
+BuildRequires:  python3-nose
+BuildRequires:  python3-sphinx
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       %{name}-libs = %{version}-%{release}
+
+%description -n python3-createrepo_c
+Python 3 bindings for the createrepo_c library.
+%endif
+
+
+############
 %prep
 %setup -q -n createrepo_c
 
+%if %{with python3}
+rm -rf py3
+mkdir ../py3
+cp -a . ../py3/
+mv ../py3 ./
+%endif
+
+
+############
 %build
+
+# Build createrepo_c with Python 2
 %cmake .
 make %{?_smp_mflags} RPM_OPT_FLAGS="$RPM_OPT_FLAGS"
+
+# Build createrepo_c with Pyhon 3
+%if %{with python3}
+pushd py3
+%cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DPYTHON_DESIRED:str=3 .
+make %{?_smp_mflags} RPM_OPT_FLAGS="$RPM_OPT_FLAGS"
+popd
+%endif
+
+# Build C documentation
 make doc-c
 
+
+############
 %check
+
+# Compile C tests
 make tests
+
+# Run Python 2 tests
 make ARGS="-V" test
 
+# Run Python 3 tests
+%if %{with python3}
+pushd py3
+make ARGS="-V" test
+popd
+%endif
+
+
+############
 %install
+
+# Install createrepo_c with Python 2
 make install DESTDIR=$RPM_BUILD_ROOT/
 
+# Install createrepo_c with Python 3
+%if %{with python3}
+pushd py3
+make install DESTDIR=$RPM_BUILD_ROOT
+popd
+%endif
+
+
+############
 %post -n %{name}-libs -p /sbin/ldconfig
 
+
+############
 %postun -n %{name}-libs -p /sbin/ldconfig
 
+
+############
 %files
 %doc README.md
 %doc COPYING
@@ -126,7 +201,19 @@ make install DESTDIR=$RPM_BUILD_ROOT/
 %files -n python-createrepo_c
 %{python_sitearch}/createrepo_c/
 
+%if %{with python3}
+%files -n python3-createrepo_c
+%{python3_sitearch}/
+%endif
+
+
+############
 %changelog
+* Tue Jan   5 2016 Tomas Mlcoch <tmlcoch at redhat.com> - 0.10.0-1
+- Python 3 support (made by Ralph Bean)
+- Modify gen_rst.py to indicate --sqliterepo is an option too (Neal Gompa)
+- Do not compress manpages at generation time (Neal Gompa)
+
 * Tue Oct  20 2015 Tomas Mlcoch <tmlcoch at redhat.com> - 0.9.1-1
 - Fix double free during parsing broken XML metadata (Issue #33)
 - Tests: Add acceptance test for --general-compress-type option
