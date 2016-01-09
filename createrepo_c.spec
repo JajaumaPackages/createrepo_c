@@ -18,7 +18,7 @@
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
 Version:        0.10.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv2
 Group:          System Environment/Base
 # Use the following commands to generate the tarball:
@@ -168,12 +168,8 @@ popd
 ############
 %post -n %{name}-libs -p /sbin/ldconfig
 
-
-############
 %postun -n %{name}-libs -p /sbin/ldconfig
 
-
-############
 %files
 %doc README.md
 %doc COPYING
@@ -209,6 +205,9 @@ popd
 
 ############
 %changelog
+* Fri Jan 8 2016 Orion Poplawski <orion@cora.nwra.com> - 0.10.0-2
+- Remove comments causing trouble with post/postun scriptlets
+
 * Tue Jan   5 2016 Tomas Mlcoch <tmlcoch at redhat.com> - 0.10.0-1
 - Python 3 support (made by Ralph Bean)
 - Modify gen_rst.py to indicate --sqliterepo is an option too (Neal Gompa)
