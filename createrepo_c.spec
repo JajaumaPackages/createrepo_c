@@ -1,15 +1,15 @@
-%global gitrev 7a74bb7
-# gitrev is output of: git rev-parse --short HEAD
+%{!?_licensedir:%global license %%doc}
 
 # Bash completion (we need different approach for RHEL-6)
 %if 0%{?rhel} == 6
-%define bash_completion %config%{_sysconfdir}/bash_completion.d/createrepo_c.bash
+%global bash_completion %config%{_sysconfdir}/bash_completion.d/createrepo_c.bash
 %else
-%define bash_completion %{_datadir}/bash-completion/completions/*
+%global bash_completion %{_datadir}/bash-completion/completions/*
 %endif
 
-# Python 3 bindings (we don't want python3 bindings in RHEL-7)
-%if 0%{?rhel} != 0 && 0%{?rhel} <= 7
+%{!?python2_sitearch:%global python2_sitearch %{python_sitearch}}
+
+%if 0%{?rhel} && 0%{?rhel} <= 7
 %bcond_with python3
 %else
 %bcond_without python3
@@ -18,18 +18,14 @@
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
 Version:        0.10.0
-Release:        3%{?dist}
-License:        GPLv2
-Group:          System Environment/Base
-# Use the following commands to generate the tarball:
-#  git clone https://github.com/Tojaj/createrepo_c.git
-#  cd createrepo_c
-#  utils/make_tarball.sh %{gitrev}
-Source0:        createrepo_c-%{gitrev}.tar.xz
-URL:            https://github.com/Tojaj/createrepo_c
+Release:        4%{?dist}
+License:        GPLv2+
+URL:            https://github.com/rpm-software-management/createrepo_c
+Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires:  bzip2-devel
 BuildRequires:  cmake
+BuildRequires:  gcc
+BuildRequires:  bzip2-devel
 BuildRequires:  doxygen
 BuildRequires:  expat-devel
 BuildRequires:  file-devel
@@ -48,7 +44,7 @@ Requires: rpm >= 4.8.0-28
 BuildRequires:  bash-completion
 Requires: rpm >= 4.9.0
 %endif
-%if 0%{?fedora} >= 21
+%if 0%{?fedora}
 BuildRequires:  drpm-devel >= 0.1.3
 %endif
 
@@ -60,123 +56,109 @@ rpm packages and maintaining it.
 
 %package libs
 Summary:    Library for repodata manipulation
-Group:      Development/Libraries
 
 %description libs
 Libraries for applications using the createrepo_c library
 for easy manipulation with a repodata.
 
-
 %package devel
 Summary:    Library for repodata manipulation
-Group:      Development/Libraries
-Requires:   pkgconfig >= 1:0.14
-Requires:   %{name}-libs =  %{version}-%{release}
+Requires:   %{name}-libs%{?_isa} = %{version}-%{release}
 
 %description devel
 This package contains the createrepo_c C library and header files.
 These development files are for easy manipulation with a repodata.
 
-%package -n python-createrepo_c
+%package -n python2-%{name}
 Summary:        Python bindings for the createrepo_c library
-Group:          Development/Languages
+%{?python_provide:%python_provide python2-%{name}}
 BuildRequires:  python2-devel
 BuildRequires:  python-nose
 BuildRequires:  python-sphinx
 Requires:       %{name}-libs = %{version}-%{release}
 
-%description -n python-createrepo_c
+%description -n python2-%{name}
 Python bindings for the createrepo_c library.
 
 %if %{with python3}
-%package -n python3-createrepo_c
+%package -n python3-%{name}
 Summary:        Python 3 bindings for the createrepo_c library
-Group:          Development/Languages
+%{?python_provide:%python_provide python3-%{name}}
 BuildRequires:  python3-devel
 BuildRequires:  python3-nose
 BuildRequires:  python3-sphinx
-Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       %{name}-libs = %{version}-%{release}
 
-%description -n python3-createrepo_c
+%description -n python3-%{name}
 Python 3 bindings for the createrepo_c library.
 %endif
 
-
-############
 %prep
-%setup -q -n createrepo_c
-
+%setup -q
+mkdir build
 %if %{with python3}
-rm -rf py3
-mkdir ../py3
-cp -a . ../py3/
-mv ../py3 ./
+mkdir build-py3
 %endif
 
-
-############
 %build
-
 # Build createrepo_c with Python 2
-%cmake .
-make %{?_smp_mflags} RPM_OPT_FLAGS="$RPM_OPT_FLAGS"
+pushd build
+  %cmake ../
+  make %{?_smp_mflags} RPM_OPT_FLAGS="%{optflags}"
+popd
 
 # Build createrepo_c with Pyhon 3
 %if %{with python3}
-pushd py3
-%cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DPYTHON_DESIRED:str=3 .
-make %{?_smp_mflags} RPM_OPT_FLAGS="$RPM_OPT_FLAGS"
+pushd build-py3
+  %cmake ../ -DPYTHON_DESIRED:str=3
+  make %{?_smp_mflags} RPM_OPT_FLAGS="%{optflags}"
 popd
 %endif
 
 # Build C documentation
-make doc-c
+pushd build
+  make doc-c
+popd
 
-
-############
 %check
+pushd build
+  # Compile C tests
+  make tests
 
-# Compile C tests
-make tests
-
-# Run Python 2 tests
-make ARGS="-V" test
+  # Run Python 2 tests
+  make ARGS="-V" test
+popd
 
 # Run Python 3 tests
 %if %{with python3}
-pushd py3
-make ARGS="-V" test
+pushd build-py3
+  make ARGS="-V" test
 popd
 %endif
 
-
-############
 %install
 
-# Install createrepo_c with Python 2
-make install DESTDIR=$RPM_BUILD_ROOT/
+pushd build
+  # Install createrepo_c with Python 2
+  make install DESTDIR=%{buildroot}
+popd
 
 # Install createrepo_c with Python 3
 %if %{with python3}
-pushd py3
-make install DESTDIR=$RPM_BUILD_ROOT
+pushd build-py3
+  make install DESTDIR=%{buildroot}
 popd
 %endif
 
-
-############
-%post -n %{name}-libs -p /sbin/ldconfig
-
-%postun -n %{name}-libs -p /sbin/ldconfig
+%post libs -p /sbin/ldconfig
+%postun libs -p /sbin/ldconfig
 
 %files
 %doc README.md
-%doc COPYING
-%_mandir/man8/createrepo_c.8.*
-%_mandir/man8/mergerepo_c.8.*
-%_mandir/man8/modifyrepo_c.8.*
-%_mandir/man8/sqliterepo_c.8.*
+%{_mandir}/man8/createrepo_c.8*
+%{_mandir}/man8/mergerepo_c.8*
+%{_mandir}/man8/modifyrepo_c.8*
+%{_mandir}/man8/sqliterepo_c.8*
 %{bash_completion}
 %{_bindir}/createrepo_c
 %{_bindir}/mergerepo_c
@@ -184,27 +166,32 @@ popd
 %{_bindir}/sqliterepo_c
 
 %files libs
-%doc COPYING
-%{_libdir}/libcreaterepo_c.so.*
+%license COPYING
+%{_libdir}/lib%{name}.so.*
 
 %files devel
-%{_libdir}/libcreaterepo_c.so
-%{_libdir}/pkgconfig/createrepo_c.pc
-%{_includedir}/createrepo_c/*
-%doc COPYING
-%doc doc/html
+%doc build/doc/html
+%{_libdir}/lib%{name}.so
+%{_libdir}/pkgconfig/%{name}.pc
+%{_includedir}/%{name}/
 
-%files -n python-createrepo_c
-%{python_sitearch}/createrepo_c/
+%files -n python2-%{name}
+%{python2_sitearch}/%{name}/
 
 %if %{with python3}
-%files -n python3-createrepo_c
-%{python3_sitearch}/
+%files -n python3-%{name}
+%{python3_sitearch}/%{name}/
 %endif
 
-
-############
 %changelog
+* Sun Apr 10 2016 Igor Gnatenko <ignatenko@redhat.com> - 0.10.0-4
+- Don't own python3_sitearch dir in python3 subpkg
+- Use %%license macro
+- Follow modern packaging guidelines
+- Cleanups in spec file
+- Follow packaging guidelines about SourceURL
+- Fix license
+
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
