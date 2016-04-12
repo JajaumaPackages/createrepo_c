@@ -11,14 +11,16 @@
 
 %if 0%{?rhel} && 0%{?rhel} <= 7
 %bcond_with python3
+%bcond_with drpm
 %else
 %bcond_without python3
+%bcond_without drpm
 %endif
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
 Version:        0.10.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 License:        GPLv2+
 URL:            https://github.com/rpm-software-management/createrepo_c
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
@@ -44,7 +46,7 @@ Requires: rpm >= 4.8.0-28
 BuildRequires:  bash-completion
 Requires: rpm >= 4.9.0
 %endif
-%if 0%{?fedora}
+%if %{with drpm}
 BuildRequires:  drpm-devel >= 0.1.3
 %endif
 
@@ -184,6 +186,9 @@ popd
 %endif
 
 %changelog
+* Tue Apr 12 2016 Igor Gnatenko <ignatenko@redhat.com> - 0.10.0-5
+- Make drpm builds conditional
+
 * Sun Apr 10 2016 Igor Gnatenko <ignatenko@redhat.com> - 0.10.0-4
 - Don't own python3_sitearch dir in python3 subpkg
 - Use %%license macro
