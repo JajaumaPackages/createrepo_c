@@ -20,10 +20,12 @@
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
 Version:        0.10.0
-Release:        8%{?dist}
+Release:        9%{?dist}
 License:        GPLv2+
 URL:            https://github.com/rpm-software-management/createrepo_c
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+
+Patch0:         createrepo_c-0.10.0-ignorelock-doublefree.patch
 
 BuildRequires:  cmake
 BuildRequires:  gcc
@@ -96,7 +98,7 @@ Python 3 bindings for the createrepo_c library.
 %endif
 
 %prep
-%setup -q
+%autosetup -p1
 mkdir build
 %if %{with python3}
 mkdir build-py3
@@ -186,6 +188,9 @@ popd
 %endif
 
 %changelog
+* Mon Feb 13 2017 Pavel Raiskup <praiskup@redhat.com> - 0.10.0-9
+- backport patches for double-free in --ignore-lock (rhbz#1355720)
+
 * Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
