@@ -20,7 +20,7 @@
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
 Version:        0.10.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 License:        GPLv2+
 URL:            https://github.com/rpm-software-management/createrepo_c
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
@@ -186,6 +186,9 @@ popd
 %endif
 
 %changelog
+* Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.10.0-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Tue Dec 13 2016 Stratakis Charalampos <cstratak@redhat.com> - 0.10.0-7
 - Rebuild for Python 3.6
 
