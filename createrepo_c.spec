@@ -20,7 +20,7 @@
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
 Version:        0.10.0
-Release:        12%{?dist}
+Release:        13%{?dist}
 License:        GPLv2+
 URL:            https://github.com/rpm-software-management/createrepo_c
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
@@ -188,6 +188,9 @@ popd
 %endif
 
 %changelog
+* Thu Aug 10 2017 Igor Gnatenko <ignatenko@redhat.com> - 0.10.0-13
+- Rebuilt for RPM soname bump
+
 * Thu Aug 10 2017 Igor Gnatenko <ignatenko@redhat.com> - 0.10.0-12
 - Rebuilt for RPM soname bump
 
