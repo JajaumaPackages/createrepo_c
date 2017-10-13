@@ -11,16 +11,20 @@
 
 %if 0%{?rhel} && 0%{?rhel} <= 7
 %bcond_with python3
-%bcond_with drpm
 %else
 %bcond_without python3
+%endif
+
+%if 0%{?fedora} || 0%{?rhel} >= 7
 %bcond_without drpm
+%else
+%bcond_with drpm
 %endif
 
 Summary:        Creates a common metadata repository
 Name:           createrepo_c
 Version:        0.10.0
-Release:        14%{?dist}
+Release:        15%{?dist}
 License:        GPLv2+
 URL:            https://github.com/rpm-software-management/createrepo_c
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
@@ -188,6 +192,9 @@ popd
 %endif
 
 %changelog
+* Fri Oct 13 2017 Jajauma's Packages <jajauma@yandex.ru> - 0.10.0-15
+- Enable drpm library on RHEL7
+
 * Fri Aug 11 2017 Igor Gnatenko <ignatenko@redhat.com> - 0.10.0-14
 - Rebuilt after RPM update (№ 3)
 
